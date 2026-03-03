@@ -3,1098 +3,917 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Concurso de Tapas 🍽️</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Concurso de Tapas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #faf6f0;
-    --warm: #f5ede0;
-    --gold: #c9933a;
-    --gold-light: #e8b96a;
-    --dark: #1a1410;
-    --brown: #3d2b1f;
-    --red: #c0392b;
-    --green: #27ae60;
-    --text: #2c1f14;
-    --muted: #7a6355;
-    --border: #ddd0c0;
-    --shadow: rgba(61,43,31,0.15);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-  }
-  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+:root {
+  --ink: #0f0d0a;
+  --parchment: #f7f2ea;
+  --warm-white: #fdfaf5;
+  --ember: #c8460a;
+  --ember-light: #e8652a;
+  --gold: #c4882a;
+  --gold-pale: #f0d090;
+  --sage: #5a6b4e;
+  --cream: #ede5d4;
+  --muted: #8a7a6a;
+  --border: #d5c9b5;
+  --shadow: rgba(15,13,10,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--parchment);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(ellipse at 20% 0%, rgba(200,70,10,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(196,136,42,0.08) 0%, transparent 60%);
+}
 
-  /* HEADER */
-  .header {
-    background: var(--dark);
-    color: var(--cream);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-  }
-  .header h1 { font-size: 1.3rem; color: var(--gold-light); letter-spacing: 0.5px; }
-  .header-sub { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .admin-badge {
-    background: var(--gold);
-    color: var(--dark);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+/* HEADER */
+.header {
+  background: var(--ink);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 200;
+  border-bottom: 2px solid var(--ember);
+}
+.header-brand { display: flex; flex-direction: column; }
+.header-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--gold-pale); letter-spacing: 0.5px; line-height: 1; }
+.header-sub { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.admin-badge { background: var(--ember); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+.btn-exit { background: transparent; border: 1px solid #444; color: #888; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-family: 'Outfit', sans-serif; transition: all 0.2s; display: none; }
+.btn-exit:hover { border-color: var(--ember); color: var(--ember); }
 
-  /* SCREENS */
-  .screen { display: none; padding: 24px 20px; max-width: 600px; margin: 0 auto; }
-  .screen.active { display: block; }
+/* SCREENS */
+.screen { display: none; padding: 24px 18px 80px; max-width: 560px; margin: 0 auto; }
+.screen.active { display: block; }
 
-  /* CARDS */
-  .card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 16px;
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 12px var(--shadow);
-  }
-  .card h2 { font-size: 1.4rem; margin-bottom: 6px; color: var(--brown); }
-  .card p { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+/* CARDS */
+.card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px var(--shadow);
+}
+.card-dark {
+  background: var(--ink);
+  border-radius: 18px;
+  padding: 28px 24px;
+  margin-bottom: 14px;
+  color: var(--gold-pale);
+}
 
-  /* FORMS */
-  label { display: block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; margin-top: 16px; }
-  label:first-of-type { margin-top: 0; }
-  input, textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: var(--text);
-    background: var(--cream);
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  input:focus, textarea:focus { border-color: var(--gold); background: white; }
-  textarea { resize: vertical; min-height: 80px; }
+/* HERO */
+.hero-card {
+  background: var(--ink);
+  border-radius: 24px;
+  padding: 40px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.hero-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,70,10,0.3) 0%, transparent 70%);
+}
+.hero-card::after {
+  content: '🍽️';
+  position: absolute; top: -10px; right: 20px;
+  font-size: 100px; opacity: 0.06; transform: rotate(15deg);
+}
+.hero-emoji-big { font-size: 3.5rem; display: block; margin-bottom: 16px; position: relative; z-index: 1; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 8px; position: relative; z-index: 1; }
+.hero-sub { font-size: 0.9rem; color: rgba(255,255,255,0.55); position: relative; z-index: 1; }
 
-  /* BUTTONS */
-  .btn {
-    display: block;
-    width: 100%;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    margin-top: 12px;
-  }
-  .btn-primary { background: var(--gold); color: white; }
-  .btn-primary:hover { background: #b8832e; transform: translateY(-1px); }
-  .btn-dark { background: var(--dark); color: var(--cream); }
-  .btn-dark:hover { background: #2d2018; }
-  .btn-green { background: var(--green); color: white; }
-  .btn-green:hover { background: #219a52; }
-  .btn-red { background: var(--red); color: white; }
-  .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
-  .btn-outline:hover { background: var(--gold); color: white; }
-  .btn-sm { padding: 8px 16px; font-size: 0.85rem; width: auto; display: inline-block; margin-top: 0; }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+/* SECTION TITLE */
+.sect { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
+.sect-small { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 12px; }
 
-  /* TABS (home) */
-  .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .tab {
-    flex: 1;
-    padding: 10px;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    background: white;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--muted);
-    transition: all 0.2s;
-    text-align: center;
-  }
-  .tab.active { border-color: var(--gold); background: var(--gold); color: white; }
+/* FORMS */
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 7px; }
+.field input, .field textarea, .field select {
+  width: 100%; padding: 13px 15px;
+  border: 2px solid var(--border); border-radius: 12px;
+  font-family: 'Outfit', sans-serif; font-size: 0.95rem;
+  color: var(--ink); background: var(--parchment);
+  outline: none; transition: border-color 0.2s, background 0.2s;
+}
+.field input:focus, .field textarea:focus { border-color: var(--ember); background: white; }
+.field textarea { resize: vertical; min-height: 80px; }
 
-  /* TEAM NUMBER BADGE */
-  .team-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    background: var(--gold);
-    color: white;
-    border-radius: 50%;
-    font-size: 1.4rem;
-    font-weight: 700;
-    font-family: 'Playfair Display', serif;
-    margin-bottom: 12px;
-  }
+/* PHOTO UPLOAD */
+.photo-upload {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--parchment);
+  position: relative;
+  overflow: hidden;
+}
+.photo-upload:hover { border-color: var(--ember); background: #fff8f5; }
+.photo-upload-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+.photo-upload-text { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+.photo-upload input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.photo-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 10px; margin-top: 10px; display: none; }
 
-  /* SLIDER */
-  .score-group { margin-bottom: 20px; }
-  .score-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .score-label { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--brown); }
-  .score-value {
-    background: var(--gold);
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.2s;
-  }
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: var(--border);
-    outline: none;
-    padding: 0;
-    border: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--gold);
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  }
-  input[type=range]:focus { border: none; }
+/* BUTTONS */
+.btn {
+  display: block; width: 100%; padding: 15px 20px;
+  border: none; border-radius: 13px;
+  font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; text-align: center; margin-top: 10px;
+  letter-spacing: 0.3px;
+}
+.btn-ember { background: var(--ember); color: white; box-shadow: 0 4px 14px rgba(200,70,10,0.3); }
+.btn-ember:hover { background: var(--ember-light); transform: translateY(-1px); }
+.btn-ink { background: var(--ink); color: var(--gold-pale); }
+.btn-ink:hover { background: #1e1b16; }
+.btn-sage { background: var(--sage); color: white; }
+.btn-sage:hover { background: #4a5a3e; }
+.btn-danger { background: #8b1a1a; color: white; }
+.btn-ghost { background: transparent; border: 2px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+.btn-gold { background: var(--gold); color: white; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+.btn-sm { padding: 8px 16px; font-size: 0.82rem; width: auto; display: inline-block; margin-top: 0; }
 
-  /* VOTING PROGRESS */
-  .progress-bar { background: var(--border); border-radius: 10px; height: 8px; margin: 8px 0; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--gold); border-radius: 10px; transition: width 0.4s; }
+/* TEAM BADGE */
+.num-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; background: var(--ember); color: white;
+  border-radius: 50%; font-size: 1.5rem; font-weight: 700;
+  font-family: 'Cormorant Garamond', serif; margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(200,70,10,0.35);
+}
 
-  /* RANKINGS */
-  .rank-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px;
-    background: var(--cream);
-    border-radius: 12px;
-    margin-bottom: 8px;
-    border: 1px solid var(--border);
-  }
-  .rank-num {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-  .rank-1 { background: #FFD700; color: #7a5800; }
-  .rank-2 { background: #C0C0C0; color: #555; }
-  .rank-3 { background: #CD7F32; color: white; }
-  .rank-other { background: var(--border); color: var(--muted); }
-  .rank-info { flex: 1; }
-  .rank-name { font-weight: 600; font-size: 0.95rem; }
-  .rank-sub { font-size: 0.78rem; color: var(--muted); }
-  .rank-score { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+/* SLIDERS */
+.score-grid { display: grid; gap: 18px; }
+.score-row { }
+.score-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.score-cat { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+.score-bubble {
+  background: var(--ink); color: var(--gold-pale);
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.05rem;
+  font-family: 'Cormorant Garamond', serif;
+  transition: background 0.2s;
+}
+.score-bubble.high { background: var(--ember); }
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 5px;
+  border-radius: 3px; background: var(--border); outline: none; padding: 0; border: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--ember); cursor: pointer;
+  box-shadow: 0 2px 8px rgba(200,70,10,0.4);
+}
 
-  /* CAT WINNER */
-  .cat-winner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    border: 2px solid var(--border);
-  }
-  .cat-icon { font-size: 1.8rem; }
-  .cat-name { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
-  .cat-winner-name { font-weight: 700; font-size: 1rem; }
-  .cat-score { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-left: auto; }
+/* TOTAL */
+.total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; background: var(--ink); border-radius: 12px; margin-top: 4px;
+}
+.total-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
+.total-val { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--gold-pale); }
 
-  /* ADMIN PANEL */
-  .admin-section { border-left: 3px solid var(--gold); padding-left: 16px; margin-bottom: 20px; }
-  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-  .status-active { background: var(--green); }
-  .status-waiting { background: var(--gold); }
-  .status-done { background: var(--muted); }
+/* TAPA CARD */
+.tapa-card {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  background: white;
+}
+.tapa-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.tapa-img-placeholder {
+  width: 100%; height: 160px;
+  background: linear-gradient(135deg, var(--cream), var(--parchment));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+}
+.tapa-info { padding: 16px 18px; }
+.tapa-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+.tapa-team { font-size: 0.8rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
 
-  /* TEAM LIST */
-  .team-list-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: var(--cream);
-    border-radius: 10px;
-    margin-bottom: 8px;
-    border: 1px solid var(--border);
-  }
-  .tl-num { background: var(--dark); color: var(--gold-light); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
-  .tl-info { flex: 1; }
-  .tl-name { font-weight: 600; font-size: 0.9rem; }
-  .tl-tapa { font-size: 0.78rem; color: var(--muted); }
+/* PROGRESS */
+.prog-bar { background: var(--border); border-radius: 10px; height: 6px; overflow: hidden; margin: 8px 0; }
+.prog-fill { height: 100%; background: var(--ember); border-radius: 10px; transition: width 0.5s ease; }
 
-  /* ALERT */
-  .alert {
-    padding: 12px 16px;
-    border-radius: 10px;
-    margin-bottom: 16px;
-    font-size: 0.88rem;
-    font-weight: 500;
-  }
-  .alert-info { background: #e8f4fd; color: #1a5f8a; border: 1px solid #b8d9f0; }
-  .alert-success { background: #eafaf1; color: #1a6640; border: 1px solid #a9dfbf; }
-  .alert-warning { background: #fef9e7; color: #7d6608; border: 1px solid #f9e79f; }
+/* ALERTS */
+.alert { padding: 13px 16px; border-radius: 12px; font-size: 0.87rem; font-weight: 500; margin-bottom: 14px; line-height: 1.4; }
+.alert-info { background: #eef4fb; color: #1d4f7c; border: 1px solid #c5d9ef; }
+.alert-success { background: #edf7f1; color: #1a5c38; border: 1px solid #b2dcc5; }
+.alert-warn { background: #fef8ee; color: #7a5210; border: 1px solid #f0d48a; }
+.alert-ember { background: #fff0eb; color: #8b2a05; border: 1px solid #f5c4b0; }
 
-  /* DIVIDER */
-  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+/* TEAM LIST */
+.team-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; background: var(--parchment);
+  border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--border);
+}
+.team-row-num { background: var(--ink); color: var(--gold-pale); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.82rem; flex-shrink: 0; }
+.team-row-info { flex: 1; }
+.team-row-name { font-weight: 600; font-size: 0.9rem; }
+.team-row-tapa { font-size: 0.76rem; color: var(--muted); }
 
-  /* DECORATION */
-  .hero-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--brown); margin-bottom: 12px; }
+/* ORDER LIST */
+.order-list { list-style: none; }
+.order-list li { padding: 9px 13px; border-radius: 10px; margin-bottom: 6px; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.order-list li.current { background: var(--ember); color: white; }
+.order-list li.done { background: #e8e2d8; color: var(--muted); text-decoration: line-through; }
+.order-list li.pending { background: var(--parchment); border: 1px solid var(--border); color: var(--ink); }
 
-  /* WINNER HIGHLIGHT */
-  .winner-card {
-    background: linear-gradient(135deg, var(--dark) 0%, var(--brown) 100%);
-    color: var(--cream);
-    border-radius: 20px;
-    padding: 28px 24px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .winner-card .trophy { font-size: 3rem; margin-bottom: 8px; }
-  .winner-card h2 { color: var(--gold-light); font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
-  .winner-card .winner-name { font-size: 1.8rem; color: white; }
-  .winner-card .winner-tapa { font-size: 0.9rem; color: #b09880; margin-top: 4px; }
-  .winner-card .winner-score { font-size: 2.5rem; font-family: 'Playfair Display', serif; color: var(--gold-light); margin-top: 8px; }
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
 
-  /* SYNC indicator */
-  .sync-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--dark);
-    color: var(--gold-light);
-    text-align: center;
-    font-size: 0.7rem;
-    padding: 4px;
-    letter-spacing: 0.5px;
-    z-index: 200;
-  }
+/* RESULTS */
+.winner-hero {
+  background: var(--ink);
+  border-radius: 24px; padding: 36px 24px; text-align: center;
+  position: relative; overflow: hidden; margin-bottom: 16px;
+}
+.winner-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% -20%, rgba(200,70,10,0.5) 0%, transparent 65%); }
+.winner-trophy { font-size: 4rem; display: block; margin-bottom: 12px; position: relative; z-index: 1; animation: bounce 1s ease infinite alternate; }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+.winner-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--ember); margin-bottom: 8px; position: relative; z-index: 1; }
+.winner-name { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; color: white; line-height: 1.1; position: relative; z-index: 1; }
+.winner-tapa { font-size: 0.9rem; color: rgba(255,255,255,0.55); margin-top: 6px; position: relative; z-index: 1; }
+.winner-pts { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: var(--gold-pale); margin-top: 12px; position: relative; z-index: 1; line-height: 1; }
+.winner-pts-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; position: relative; z-index: 1; }
 
-  .order-list { list-style: none; }
-  .order-list li {
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .order-list li.current { background: var(--gold); color: white; font-weight: 600; }
-  .order-list li.done { background: #eee; color: var(--muted); text-decoration: line-through; }
-  .order-list li.pending { background: var(--cream); border: 1px solid var(--border); }
+.rank-row { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--parchment); border-radius: 13px; margin-bottom: 8px; border: 1px solid var(--border); transition: transform 0.2s; }
+.rank-row:hover { transform: translateX(3px); }
+.rank-medal { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0; }
+.m1 { background: linear-gradient(135deg,#f7d060,#c8960a); color: #5a3d00; }
+.m2 { background: linear-gradient(135deg,#d8d8d8,#9a9a9a); color: #333; }
+.m3 { background: linear-gradient(135deg,#d4956a,#9a5a2a); color: white; }
+.mN { background: var(--border); color: var(--muted); }
+.rank-info { flex: 1; }
+.rank-name { font-weight: 700; font-size: 0.95rem; }
+.rank-tapa { font-size: 0.76rem; color: var(--muted); }
+.rank-score { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--ember); }
+
+.cat-row { display: flex; align-items: center; gap: 14px; padding: 15px 16px; border-radius: 13px; margin-bottom: 10px; background: var(--parchment); border: 1px solid var(--border); }
+.cat-ico { font-size: 1.8rem; flex-shrink: 0; }
+.cat-body { flex: 1; }
+.cat-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+.cat-winner-name { font-weight: 700; font-size: 0.95rem; }
+.cat-pts { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+
+/* SYNC BAR */
+.sync-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--ink); color: #555; text-align: center;
+  font-size: 0.66rem; padding: 5px; letter-spacing: 1px; z-index: 300;
+  border-top: 1px solid #222;
+}
+.sync-bar.ok { color: var(--sage); }
+
+/* VOTE EDIT BUTTON */
+.edit-vote-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff8f0; border: 2px solid var(--gold-pale);
+  color: var(--gold); border-radius: 12px; padding: 10px 16px;
+  font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; width: 100%; margin-top: 10px; transition: all 0.2s;
+  justify-content: center;
+}
+.edit-vote-btn:hover { background: #fff0d0; border-color: var(--gold); }
+
+/* ADMIN SECTION */
+.admin-sec { border-left: 3px solid var(--ember); padding-left: 16px; margin-bottom: 20px; }
+
+/* ANIMATION */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp 0.4s ease forwards; }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
-  <div>
-    <h1>🍽️ Concurso de Tapas</h1>
+  <div class="header-brand">
+    <div class="header-title">🍽️ Concurso de Tapas</div>
     <div class="header-sub" id="headerSub">Inicio</div>
   </div>
-  <div style="display:flex;align-items:center;gap:8px;">
+  <div class="header-right">
     <div id="headerBadge"></div>
-    <button id="btnExit" onclick="exitToHome()" style="display:none;background:transparent;border:1px solid #555;color:#aaa;padding:4px 10px;border-radius:20px;font-size:0.7rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Salir</button>
+    <button class="btn-exit" id="btnExit" onclick="exitToHome()">Salir</button>
   </div>
 </div>
 
-<!-- SCREEN: HOME -->
-<div class="screen active" id="screenHome">
-  <div class="card" style="text-align:center; padding: 32px 24px;">
-    <span class="hero-emoji">🏆</span>
-    <h2 style="font-size:1.8rem; margin-bottom:8px;">¡Bienvenido!</h2>
-    <p style="margin-bottom: 24px;">Selecciona cómo entras al concurso</p>
-    <div class="tabs" style="flex-direction:column; gap:12px;">
-      <button class="btn btn-primary" onclick="goToScreen('screenRegister')">🍴 Soy un equipo participante</button>
-      <button class="btn btn-dark" onclick="showAdminLogin()">⚙️ Soy el administrador</button>
+<!-- SETUP -->
+<div class="screen active" id="screenSetup">
+  <div class="hero-card fade-up">
+    <span class="hero-emoji-big">🔑</span>
+    <div class="hero-title">Configuración</div>
+    <div class="hero-sub">Solo necesitas hacer esto una vez</div>
+  </div>
+  <div class="card">
+    <div class="field">
+      <label>Clave API de JSONBin (X-Master-Key)</label>
+      <input type="text" id="setupApiKey" placeholder="$2a$10$..." />
     </div>
+    <button class="btn btn-ember" onclick="setupApp()">Conectar y empezar →</button>
+    <div id="setupError" class="alert alert-warn" style="display:none;margin-top:12px;"></div>
+    <p style="margin-top:14px;font-size:0.75rem;color:var(--muted);line-height:1.5;">La clave se guarda en este dispositivo. Los participantes NO necesitan introducirla.</p>
   </div>
-  <div class="alert alert-info" id="homeStatus" style="display:none;"></div>
 </div>
 
-<!-- SCREEN: ADMIN LOGIN -->
+<!-- HOME -->
+<div class="screen" id="screenHome">
+  <div class="hero-card fade-up">
+    <span class="hero-emoji-big">🏆</span>
+    <div class="hero-title">¡Bienvenido!</div>
+    <div class="hero-sub">El mejor concurso de tapas</div>
+  </div>
+  <div class="card">
+    <button class="btn btn-ember" onclick="goToScreen('screenRegister')">🍴 Soy un equipo participante</button>
+    <button class="btn btn-ink" onclick="showAdminLogin()" style="margin-top:8px;">⚙️ Soy el administrador</button>
+  </div>
+  <div id="homeStatus" class="alert alert-warn" style="display:none;"></div>
+</div>
+
+<!-- ADMIN LOGIN -->
 <div class="screen" id="screenAdminLogin">
   <div class="card">
-    <h2>Acceso Administrador</h2>
-    <p style="margin-bottom:16px;">Introduce la contraseña de administrador</p>
-    <label>Contraseña</label>
-    <input type="password" id="adminPass" placeholder="Contraseña..." />
-    <button class="btn btn-dark" onclick="checkAdminPass()" style="margin-top:16px;">Entrar como Admin</button>
-    <button class="btn btn-outline" onclick="goToScreen('screenHome')" style="margin-top:8px;">← Volver</button>
-    <div class="alert alert-warning" id="adminPassError" style="display:none; margin-top:12px;">Contraseña incorrecta</div>
+    <div class="sect">Acceso Admin</div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="adminPass" placeholder="••••••••" />
+    </div>
+    <button class="btn btn-ink" onclick="checkAdminPass()">Entrar →</button>
+    <button class="btn btn-ghost" onclick="goToScreen('screenHome')" style="margin-top:8px;">← Volver</button>
+    <div id="adminPassError" class="alert alert-ember" style="display:none;margin-top:12px;">Contraseña incorrecta</div>
   </div>
 </div>
 
-<!-- SCREEN: REGISTER -->
+<!-- REGISTER -->
 <div class="screen" id="screenRegister">
-  <div class="card">
-    <h2>Registro de Equipo</h2>
-    <p style="margin-bottom:16px;">Rellena los datos de tu equipo para unirte al concurso</p>
-    <div id="registerStatus" class="alert alert-warning" style="display:none;"></div>
-    <label>Nombre del equipo</label>
-    <input type="text" id="regTeamName" placeholder="Ej: Los Masterchefs..." />
-    <label>Integrantes (uno por línea)</label>
-    <textarea id="regMembers" placeholder="Ana García&#10;Pedro López&#10;María Ruiz..."></textarea>
-    <label>Nombre de vuestra tapa</label>
-    <input type="text" id="regTapaName" placeholder="Ej: Croquetas de jamón ibérico..." />
-    <button class="btn btn-primary" onclick="registerTeam()" style="margin-top:20px;">Registrar mi equipo ✓</button>
-    <button class="btn btn-outline" onclick="goToScreen('screenHome')" style="margin-top:8px;">← Volver</button>
+  <div class="card fade-up">
+    <div class="sect">Registro de equipo</div>
+    <div id="registerStatus" class="alert alert-warn" style="display:none;"></div>
+    <div class="field">
+      <label>Nombre del equipo</label>
+      <input type="text" id="regTeamName" placeholder="Los Masterchefs..." />
+    </div>
+    <div class="field">
+      <label>Integrantes (uno por línea)</label>
+      <textarea id="regMembers" placeholder="Ana García&#10;Pedro López&#10;María Ruiz"></textarea>
+    </div>
+    <div class="field">
+      <label>Nombre de vuestra tapa</label>
+      <input type="text" id="regTapaName" placeholder="Croquetas de jamón ibérico..." />
+    </div>
+    <div class="field">
+      <label>Foto de vuestra tapa</label>
+      <div class="photo-upload" id="photoUploadArea">
+        <span class="photo-upload-icon">📷</span>
+        <div class="photo-upload-text">Pulsa para subir una foto</div>
+        <input type="file" accept="image/*" id="photoInput" onchange="handlePhoto(this)">
+        <img class="photo-preview" id="photoPreview" />
+      </div>
+    </div>
+    <button class="btn btn-ember" onclick="registerTeam()" id="btnRegister">Registrar equipo ✓</button>
+    <button class="btn btn-ghost" onclick="goToScreen('screenHome')" style="margin-top:8px;">← Volver</button>
   </div>
 </div>
 
-<!-- SCREEN: TEAM WAITING -->
+<!-- TEAM WAIT -->
 <div class="screen" id="screenTeamWait">
-  <div class="card" style="text-align:center;">
-    <div class="team-badge" id="waitBadge">?</div>
-    <h2 id="waitTeamName">Tu Equipo</h2>
-    <p id="waitTapa" style="color: var(--gold); font-weight:600; margin: 8px 0;"></p>
+  <div class="card" style="text-align:center;" id="waitCard">
+    <div class="num-badge" id="waitBadge">?</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;" id="waitTeamName">—</div>
+    <div style="color:var(--ember);font-weight:600;margin:6px 0;" id="waitTapa">—</div>
     <div class="divider"></div>
     <div id="waitStatus" class="alert alert-info" style="margin-bottom:0;"></div>
   </div>
   <div class="card" id="waitOrderCard" style="display:none;">
-    <div class="section-title">Orden de evaluación</div>
+    <div class="sect-small">Orden de evaluación</div>
     <ul class="order-list" id="waitOrderList"></ul>
   </div>
+  <button id="btnEditVote" class="edit-vote-btn" onclick="goToEditVote()" style="display:none;">✏️ Cambiar mi votación anterior</button>
 </div>
 
-<!-- SCREEN: VOTING -->
+<!-- VOTE SCREEN -->
 <div class="screen" id="screenVote">
-  <div class="card">
-    <div class="section-title" id="voteRoundLabel">Ronda 1</div>
-    <h2 id="voteTapaTitle" style="margin-bottom:4px;">Nombre de la tapa</h2>
-    <p id="voteTeamLabel" style="color: var(--muted); margin-bottom: 20px;"></p>
-
-    <div class="score-group">
-      <div class="score-header">
-        <span class="score-label">🔥 Sabor</span>
-        <span class="score-value" id="valSabor">5</span>
-      </div>
-      <input type="range" min="1" max="10" value="5" id="sliderSabor" oninput="updateScore('Sabor', this.value)">
+  <div class="tapa-card" id="voteTapaCard">
+    <div class="tapa-img-placeholder" id="voteTapaPlaceholder">🍽️</div>
+    <img class="tapa-img" id="voteTapaImg" style="display:none;" />
+    <div class="tapa-info">
+      <div class="tapa-name" id="voteTapaTitle">—</div>
+      <div class="tapa-team" id="voteTeamLabel">—</div>
     </div>
-    <div class="score-group">
-      <div class="score-header">
-        <span class="score-label">📸 Imagen</span>
-        <span class="score-value" id="valImagen">5</span>
-      </div>
-      <input type="range" min="1" max="10" value="5" id="sliderImagen" oninput="updateScore('Imagen', this.value)">
-    </div>
-    <div class="score-group">
-      <div class="score-header">
-        <span class="score-label">📣 Marketing</span>
-        <span class="score-value" id="valMarketing">5</span>
-      </div>
-      <input type="range" min="1" max="10" value="5" id="sliderMarketing" oninput="updateScore('Marketing', this.value)">
-    </div>
-    <div class="score-group">
-      <div class="score-header">
-        <span class="score-label">🥦 Saludable</span>
-        <span class="score-value" id="valSaludable">5</span>
-      </div>
-      <input type="range" min="1" max="10" value="5" id="sliderSaludable" oninput="updateScore('Saludable', this.value)">
-    </div>
-
-    <div class="divider"></div>
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <span style="font-weight:600;">Puntuación total:</span>
-      <span style="font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--gold);" id="voteTotal">20</span>
-    </div>
-    <button class="btn btn-green" id="submitVoteBtn" onclick="submitVote()">Enviar puntuación ✓</button>
-    <div id="voteMsg" class="alert" style="display:none; margin-top:12px;"></div>
   </div>
 
   <div class="card">
-    <div class="section-title">Progreso de votaciones</div>
-    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:8px;" id="voteProgressLabel"></p>
-    <div class="progress-bar"><div class="progress-fill" id="voteProgressBar" style="width:0%"></div></div>
+    <div class="sect-small" id="voteRoundLabel">Ronda 1</div>
+    <div class="score-grid">
+      <div class="score-row">
+        <div class="score-top"><span class="score-cat">🔥 Sabor</span><span class="score-bubble" id="valSabor">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="sliderSabor" oninput="updateScore('Sabor',this.value)">
+      </div>
+      <div class="score-row">
+        <div class="score-top"><span class="score-cat">📸 Imagen</span><span class="score-bubble" id="valImagen">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="sliderImagen" oninput="updateScore('Imagen',this.value)">
+      </div>
+      <div class="score-row">
+        <div class="score-top"><span class="score-cat">📣 Marketing</span><span class="score-bubble" id="valMarketing">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="sliderMarketing" oninput="updateScore('Marketing',this.value)">
+      </div>
+      <div class="score-row">
+        <div class="score-top"><span class="score-cat">🥦 Saludable</span><span class="score-bubble" id="valSaludable">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="sliderSaludable" oninput="updateScore('Saludable',this.value)">
+      </div>
+    </div>
+    <div class="total-row" style="margin-top:20px;">
+      <span class="total-label">Total</span>
+      <span class="total-val" id="voteTotal">20</span>
+    </div>
+    <button class="btn btn-sage" id="submitVoteBtn" onclick="submitVote()" style="margin-top:14px;">Enviar puntuación ✓</button>
+    <div id="voteMsg" class="alert" style="display:none;margin-top:12px;"></div>
+  </div>
+
+  <div class="card">
+    <div class="sect-small">Progreso de votaciones</div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:6px;" id="voteProgressLabel"></p>
+    <div class="prog-bar"><div class="prog-fill" id="voteProgressBar" style="width:0%"></div></div>
   </div>
 </div>
 
-<!-- SCREEN: VOTE DONE -->
+<!-- VOTE DONE -->
 <div class="screen" id="screenVoteDone">
-  <div class="card" style="text-align:center; padding: 32px;">
-    <span style="font-size:3rem;">✅</span>
-    <h2 style="margin: 12px 0 8px;">¡Voto enviado!</h2>
-    <p id="voteDoneMsg">Espera a que el admin abra la siguiente ronda</p>
+  <div class="card" style="text-align:center;padding:36px 24px;">
+    <span style="font-size:3.5rem;display:block;margin-bottom:14px;">✅</span>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;margin-bottom:8px;">¡Voto enviado!</div>
+    <p id="voteDoneMsg" style="color:var(--muted);">Espera a la siguiente ronda</p>
   </div>
+  <button id="btnEditFromDone" class="edit-vote-btn" onclick="goToEditVote()" style="display:none;">✏️ Cambiar mi votación</button>
 </div>
 
-<!-- SCREEN: ADMIN PANEL -->
+<!-- ADMIN PANEL -->
 <div class="screen" id="screenAdmin">
   <div class="card">
-    <h2>Panel de Administrador</h2>
-    <p id="adminPhaseLabel" style="margin-bottom:16px; color: var(--gold); font-weight:600;"></p>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;margin-bottom:4px;">Panel Admin</div>
+    <div id="adminPhaseLabel" style="font-size:0.82rem;color:var(--ember);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;"></div>
 
-    <!-- PHASE: REGISTRATION -->
+    <!-- REGISTRATION -->
     <div id="adminPhaseReg">
-      <div class="admin-section">
-        <p class="section-title">Fase de registro</p>
-        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;">Los equipos se están registrando. Cuando todos estén listos, lanza el sorteo.</p>
-        <p style="font-size:0.85rem; margin-bottom:12px;"><strong id="regCount">0</strong> equipos registrados</p>
+      <div class="admin-sec">
+        <div class="sect-small">Equipos registrados</div>
+        <div style="font-size:2rem;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--ember);margin-bottom:10px;" id="regCount">0</div>
         <div id="adminTeamList"></div>
-        <button class="btn btn-primary" id="btnLaunchSorteo" onclick="launchSorteo()" style="margin-top:8px;">🎲 Lanzar sorteo y empezar</button>
+        <button class="btn btn-ember" onclick="launchSorteo()">🎲 Lanzar sorteo y empezar</button>
       </div>
     </div>
 
-    <!-- PHASE: VOTING -->
+    <!-- VOTING -->
     <div id="adminPhaseVoting" style="display:none;">
-      <div class="admin-section">
-        <p class="section-title">Votaciones en curso</p>
-        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;">Ronda <strong id="adminCurrentRound">1</strong> de <strong id="adminTotalRounds">?</strong>: evaluando la tapa de <strong id="adminCurrentTapa" style="color:var(--gold)"></strong></p>
-        <div class="progress-bar" style="margin-bottom:8px;"><div class="progress-fill" id="adminVoteProgress" style="width:0%"></div></div>
-        <p style="font-size:0.82rem; color:var(--muted);" id="adminVoteProgressLabel"></p>
+      <div class="admin-sec">
+        <div class="sect-small">Ronda actual</div>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:10px;">Ronda <strong id="adminCurrentRound">1</strong> de <strong id="adminTotalRounds">?</strong> — evaluando <strong id="adminCurrentTapa" style="color:var(--ember)"></strong></p>
+        <div class="prog-bar"><div class="prog-fill" id="adminVoteProgress" style="width:0%"></div></div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:6px;" id="adminVoteProgressLabel"></p>
       </div>
-      <div class="admin-section" style="margin-top:16px;">
-        <p class="section-title">Orden de evaluación</p>
+      <div class="admin-sec" style="margin-top:16px;">
+        <div class="sect-small">Orden de evaluación</div>
         <ul class="order-list" id="adminOrderList"></ul>
       </div>
-      <button class="btn btn-primary" id="btnNextRound" onclick="nextRound()" style="display:none;">➡️ Siguiente ronda</button>
-      <button class="btn btn-green" id="btnFinish" onclick="finishContest()" style="display:none;">🏆 Ver resultados finales</button>
+      <button class="btn btn-ember" id="btnNextRound" onclick="nextRound()" style="display:none;">➡️ Siguiente ronda</button>
+      <button class="btn btn-sage" id="btnFinish" onclick="finishContest()" style="display:none;">🏆 Revelar resultados</button>
     </div>
 
-    <!-- PHASE: FINISHED -->
+    <!-- FINISHED -->
     <div id="adminPhaseFinished" style="display:none;">
-      <p class="section-title">✅ Concurso finalizado</p>
-      <button class="btn btn-primary" onclick="goToScreen('screenResults'); renderResults()">Ver resultados completos 🏆</button>
+      <div class="alert alert-success">✅ El concurso ha finalizado</div>
+      <button class="btn btn-ember" onclick="goToScreen('screenResults');renderResults()">Ver resultados 🏆</button>
     </div>
 
     <div class="divider"></div>
-    <button class="btn btn-red" onclick="resetContest()">🗑️ Resetear concurso (borrar todo)</button>
+    <button class="btn btn-danger" onclick="resetContest()">🗑️ Resetear concurso</button>
   </div>
 </div>
 
-<!-- SCREEN: RESULTS -->
+<!-- RESULTS -->
 <div class="screen" id="screenResults">
   <div id="resultsContent"></div>
-  <button class="btn btn-outline" onclick="goToScreen('screenAdmin')" id="backToAdmin" style="margin-bottom:40px;">← Volver al panel</button>
+  <button class="btn btn-ghost" onclick="goToScreen('screenAdmin')" id="backToAdmin" style="display:none;margin-bottom:40px;">← Volver al panel</button>
 </div>
 
-<div class="sync-bar" id="syncBar">● Sincronizando...</div>
+<div class="sync-bar" id="syncBar">● Conectando...</div>
 
 <script>
-// ===================== STORAGE =====================
-const STORAGE_KEY = 'concurso_tapas_v2';
 const ADMIN_PASSWORD = 'admin2024';
-let myTeamId = null;
-let isAdmin = false;
-let pollInterval = null;
+const API = 'https://api.jsonbin.io/v3';
+let API_KEY = '', BIN_ID = '';
+let myTeamId = localStorage.getItem('myTeamId') || null;
+let isAdmin = false, pollInterval = null, lastUpdatedAt = 0, isSaving = false;
+let photoData = null; // base64 photo
 
-function getState() {
+// ===== PHOTO =====
+function handlePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    photoData = e.target.result;
+    const preview = document.getElementById('photoPreview');
+    preview.src = photoData;
+    preview.style.display = 'block';
+    document.querySelector('.photo-upload-text').textContent = '✓ Foto añadida';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== API =====
+async function apiLoad() {
+  const res = await fetch(API+'/b/'+BIN_ID+'/latest', {headers:{'X-Master-Key':API_KEY}});
+  const data = await res.json();
+  return data.record;
+}
+async function apiSave(state) {
+  if (isSaving) return;
+  isSaving = true;
+  state.updatedAt = Date.now();
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch(e) { return null; }
+    await fetch(API+'/b/'+BIN_ID, {method:'PUT', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY}, body:JSON.stringify(state)});
+    lastUpdatedAt = state.updatedAt;
+    setSyncBar('● Guardado '+new Date(state.updatedAt).toLocaleTimeString(), true);
+  } catch(e) { setSyncBar('⚠️ Error al guardar', false); }
+  isSaving = false;
+}
+async function createBin() {
+  const init = {phase:'registration',teams:[],order:[],currentRound:0,votes:{},updatedAt:Date.now()};
+  const res = await fetch(API+'/b', {method:'POST', headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Name':'ConcursoTapas','X-Bin-Private':'false'}, body:JSON.stringify(init)});
+  return (await res.json()).metadata.id;
 }
 
-function setState(state) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  broadcastUpdate(state);
+// ===== SETUP =====
+async function setupApp() {
+  const key = document.getElementById('setupApiKey').value.trim();
+  const errEl = document.getElementById('setupError');
+  if (!key) { errEl.style.display='block'; errEl.textContent='Introduce la clave API.'; return; }
+  API_KEY = key;
+  setSyncBar('● Conectando...');
+  const savedBin = localStorage.getItem('concurso_bin_id');
+  if (savedBin) {
+    BIN_ID = savedBin;
+    try { const s = await apiLoad(); if (s) { localStorage.setItem('concurso_api_key',key); finishSetup(s); return; } } catch(e) {}
+  }
+  try {
+    errEl.style.display='none';
+    BIN_ID = await createBin();
+    localStorage.setItem('concurso_bin_id', BIN_ID);
+    localStorage.setItem('concurso_api_key', key);
+    finishSetup(await apiLoad());
+  } catch(e) { errEl.style.display='block'; errEl.textContent='Error. Comprueba la clave API.'; }
+}
+function finishSetup(state) {
+  setSyncBar('● Conectado ✓', true);
+  goToScreen('screenHome'); showHomeStatus(state); startPolling();
+  if (myTeamId && state) { const t = state.teams.find(t=>t.id===myTeamId); if (t) restoreSession(t,state); }
 }
 
-function initState() {
-  const existing = getState();
-  if (existing) return existing;
-  const s = {
-    phase: 'registration', // registration | voting | finished
-    teams: [],
-    order: [], // team ids in evaluation order
-    currentRound: 0,
-    votes: {}, // votes[voterTeamId][targetTeamId] = {sabor,imagen,marketing,saludable}
-    updatedAt: Date.now()
-  };
-  setState(s);
-  return s;
-}
-
-// Use BroadcastChannel for cross-tab sync + localStorage for persistence
-let bc;
-try { bc = new BroadcastChannel('concurso_tapas'); } catch(e) {}
-
-function broadcastUpdate(state) {
-  if (bc) bc.postMessage({ type: 'update', state });
-}
-
-if (bc) {
-  bc.onmessage = (e) => {
-    if (e.data.type === 'update') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(e.data.state));
-      onStateChange(e.data.state);
-    }
-  };
-}
-
-// ===================== NAVIGATION =====================
+// ===== NAV =====
 function goToScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('headerSub').textContent = {
-    screenHome: 'Inicio',
-    screenRegister: 'Registro de equipo',
-    screenTeamWait: 'Sala de espera',
-    screenVote: 'Votación',
-    screenVoteDone: 'Voto enviado',
-    screenAdmin: 'Panel Admin',
-    screenResults: 'Resultados',
-    screenAdminLogin: 'Admin'
-  }[id] || '';
-  const badge = document.getElementById('headerBadge');
-  badge.innerHTML = isAdmin ? '<span class="admin-badge">Admin</span>' : '';
-  document.getElementById('btnExit').style.display = id === 'screenHome' ? 'none' : 'inline-block';
+  const names = {screenHome:'Inicio',screenRegister:'Registro',screenTeamWait:'Sala de espera',screenVote:'Votación',screenVoteDone:'Voto enviado',screenAdmin:'Admin',screenResults:'Resultados',screenAdminLogin:'Admin',screenSetup:'Config'};
+  document.getElementById('headerSub').textContent = names[id]||'';
+  document.getElementById('headerBadge').innerHTML = isAdmin ? '<span class="admin-badge">Admin</span>' : '';
+  document.getElementById('btnExit').style.display = (id==='screenHome'||id==='screenSetup') ? 'none' : 'block';
 }
-
 function exitToHome() {
-  if (!confirm('\u00bfSalir y volver al inicio? Si eres un equipo registrado, perder\u00e1s tu sesi\u00f3n en este dispositivo.')) return;
-  myTeamId = null;
-  isAdmin = false;
-  localStorage.removeItem('myTeamId');
-  if (pollInterval) clearInterval(pollInterval);
+  if (!confirm('¿Salir?')) return;
+  myTeamId=null; isAdmin=false; localStorage.removeItem('myTeamId');
   goToScreen('screenHome');
-  showHomeStatus();
 }
-
-function resetContest() {
-  if (!confirm('\u26a0\ufe0f \u00bfSeguro? Esto borrar\u00e1 TODOS los equipos, votos y resultados. No se puede deshacer.')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  localStorage.removeItem('myTeamId');
-  myTeamId = null;
-  isAdmin = false;
-  if (pollInterval) clearInterval(pollInterval);
-  location.reload();
+async function resetContest() {
+  if (!confirm('⚠️ ¿Borrar todo?')) return;
+  await apiSave({phase:'registration',teams:[],order:[],currentRound:0,votes:{},updatedAt:Date.now()});
+  myTeamId=null; isAdmin=false; localStorage.removeItem('myTeamId'); location.reload();
 }
-
-// ===================== HOME =====================
-function showHomeStatus() {
-  const state = getState();
+function setSyncBar(msg, ok=false) {
+  const el = document.getElementById('syncBar');
+  el.textContent = msg; el.className = 'sync-bar'+(ok?' ok':'');
+}
+function showHomeStatus(state) {
   const el = document.getElementById('homeStatus');
   if (!state) { el.style.display='none'; return; }
-  if (state.phase === 'voting') {
-    el.style.display = 'block';
-    el.className = 'alert alert-warning';
-    el.textContent = '⚠️ El concurso ya ha empezado. Si ya te registraste, contacta al admin.';
-  } else if (state.phase === 'finished') {
-    el.style.display = 'block';
-    el.className = 'alert alert-success';
-    el.textContent = '🏆 El concurso ha finalizado.';
-  } else {
-    el.style.display='none';
-  }
+  if (state.phase==='voting') { el.style.display='block'; el.textContent='⚠️ El concurso ya ha empezado. Abre el enlace y la app te reconocerá automáticamente.'; }
+  else if (state.phase==='finished') { el.style.display='block'; el.className='alert alert-success'; el.textContent='🏆 El concurso ha finalizado.'; }
+  else el.style.display='none';
 }
 
-// ===================== ADMIN LOGIN =====================
-function showAdminLogin() {
-  goToScreen('screenAdminLogin');
+// ===== ADMIN =====
+function showAdminLogin() { goToScreen('screenAdminLogin'); }
+async function checkAdminPass() {
+  if (document.getElementById('adminPass').value === ADMIN_PASSWORD) {
+    isAdmin=true; document.getElementById('adminPassError').style.display='none';
+    goToScreen('screenAdmin'); renderAdminPanel(await apiLoad());
+  } else { document.getElementById('adminPassError').style.display='block'; }
 }
-
-function checkAdminPass() {
-  const pass = document.getElementById('adminPass').value;
-  if (pass === ADMIN_PASSWORD) {
-    isAdmin = true;
-    document.getElementById('adminPassError').style.display = 'none';
-    goToScreen('screenAdmin');
-    renderAdminPanel();
-    startPolling();
-  } else {
-    document.getElementById('adminPassError').style.display = 'block';
-  }
+function renderAdminPanel(state) {
+  if (!state) return;
+  document.getElementById('adminPhaseLabel').textContent = state.phase==='registration'?'📋 Registro':state.phase==='voting'?'🗳️ Votaciones':'✅ Finalizado';
+  document.getElementById('adminPhaseReg').style.display = state.phase==='registration'?'block':'none';
+  document.getElementById('adminPhaseVoting').style.display = state.phase==='voting'?'block':'none';
+  document.getElementById('adminPhaseFinished').style.display = state.phase==='finished'?'block':'none';
+  if (state.phase==='registration') renderAdminTeams(state);
+  if (state.phase==='voting') renderAdminVoting(state);
 }
-
-// ===================== REGISTRATION =====================
-function registerTeam() {
-  const name = document.getElementById('regTeamName').value.trim();
-  const members = document.getElementById('regMembers').value.trim();
-  const tapa = document.getElementById('regTapaName').value.trim();
-  const errEl = document.getElementById('registerStatus');
-
-  if (!name || !members || !tapa) {
-    errEl.style.display = 'block';
-    errEl.className = 'alert alert-warning';
-    errEl.textContent = 'Por favor rellena todos los campos.';
-    return;
-  }
-
-  const state = initState();
-
-  if (state.phase !== 'registration') {
-    errEl.style.display = 'block';
-    errEl.className = 'alert alert-warning';
-    errEl.textContent = 'El concurso ya ha comenzado. No es posible registrarse ahora.';
-    return;
-  }
-
-  // Check duplicate name
-  if (state.teams.find(t => t.name.toLowerCase() === name.toLowerCase())) {
-    errEl.style.display = 'block';
-    errEl.className = 'alert alert-warning';
-    errEl.textContent = 'Ya existe un equipo con ese nombre.';
-    return;
-  }
-
-  const teamId = 'team_' + Date.now();
-  const teamNum = state.teams.length + 1;
-  const team = {
-    id: teamId,
-    num: teamNum,
-    name,
-    members: members.split('\n').map(m => m.trim()).filter(Boolean),
-    tapa
-  };
-
-  state.teams.push(team);
-  state.updatedAt = Date.now();
-  setState(state);
-
-  myTeamId = teamId;
-  localStorage.setItem('myTeamId', teamId);
-
-  // Show wait screen
-  showTeamWait(team, state);
-  goToScreen('screenTeamWait');
-  startPolling();
-}
-
-function showTeamWait(team, state) {
-  document.getElementById('waitBadge').textContent = team.num;
-  document.getElementById('waitTeamName').textContent = team.name;
-  document.getElementById('waitTapa').textContent = '🍽️ ' + team.tapa;
-
-  const statusEl = document.getElementById('waitStatus');
-  if (state.phase === 'registration') {
-    statusEl.className = 'alert alert-info';
-    statusEl.textContent = '⏳ Espera a que el administrador lance el sorteo para empezar.';
-    document.getElementById('waitOrderCard').style.display = 'none';
-  } else if (state.phase === 'voting') {
-    renderWaitVoting(state, team);
-  }
-}
-
-// ===================== ADMIN PANEL =====================
-function renderAdminPanel() {
-  const state = initState();
-  document.getElementById('adminPhaseLabel').textContent =
-    state.phase === 'registration' ? '📋 Fase: Registro de equipos' :
-    state.phase === 'voting' ? '🗳️ Fase: Votaciones' :
-    '✅ Fase: Finalizado';
-
-  document.getElementById('adminPhaseReg').style.display = state.phase === 'registration' ? 'block' : 'none';
-  document.getElementById('adminPhaseVoting').style.display = state.phase === 'voting' ? 'block' : 'none';
-  document.getElementById('adminPhaseFinished').style.display = state.phase === 'finished' ? 'block' : 'none';
-
-  if (state.phase === 'registration') renderAdminTeams(state);
-  if (state.phase === 'voting') renderAdminVoting(state);
-}
-
 function renderAdminTeams(state) {
   document.getElementById('regCount').textContent = state.teams.length;
-  const list = document.getElementById('adminTeamList');
-  list.innerHTML = state.teams.map(t => `
-    <div class="team-list-item">
-      <div class="tl-num">${t.num}</div>
-      <div class="tl-info">
-        <div class="tl-name">${t.name}</div>
-        <div class="tl-tapa">🍽️ ${t.tapa} · ${t.members.join(', ')}</div>
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('adminTeamList').innerHTML = state.teams.map(t=>`
+    <div class="team-row">
+      <div class="team-row-num">${t.num}</div>
+      <div class="team-row-info"><div class="team-row-name">${t.name}</div><div class="team-row-tapa">🍽️ ${t.tapa}</div></div>
+    </div>`).join('');
 }
-
 function renderAdminVoting(state) {
-  const round = state.currentRound;
-  const order = state.order;
-  const teams = state.teams;
-  const total = order.length;
-
-  document.getElementById('adminCurrentRound').textContent = round + 1;
-  document.getElementById('adminTotalRounds').textContent = total;
-
-  const currentTeamId = order[round];
-  const currentTeam = teams.find(t => t.id === currentTeamId);
-  document.getElementById('adminCurrentTapa').textContent = currentTeam ? `${currentTeam.tapa} (${currentTeam.name})` : '';
-
-  // Progress: count who has voted for current team
-  const voters = teams.filter(t => t.id !== currentTeamId);
-  const voted = voters.filter(t => state.votes[t.id] && state.votes[t.id][currentTeamId]);
-  const pct = voters.length > 0 ? Math.round(voted.length / voters.length * 100) : 0;
-  document.getElementById('adminVoteProgress').style.width = pct + '%';
-  document.getElementById('adminVoteProgressLabel').textContent = `${voted.length} de ${voters.length} equipos han votado (${pct}%)`;
-
-  // Order list
-  const ol = document.getElementById('adminOrderList');
-  ol.innerHTML = order.map((tid, i) => {
-    const t = teams.find(x => x.id === tid);
-    const cls = i < round ? 'done' : i === round ? 'current' : 'pending';
-    return `<li class="${cls}">${i < round ? '✓' : i === round ? '▶' : (i+1)+'.'} ${t ? t.tapa + ' — ' + t.name : ''}</li>`;
+  const r=state.currentRound, o=state.order, teams=state.teams;
+  document.getElementById('adminCurrentRound').textContent=r+1;
+  document.getElementById('adminTotalRounds').textContent=o.length;
+  const cur=teams.find(t=>t.id===o[r]);
+  document.getElementById('adminCurrentTapa').textContent=cur?cur.tapa+' ('+cur.name+')':'';
+  const voters=teams.filter(t=>t.id!==o[r]);
+  const voted=voters.filter(t=>state.votes[t.id]&&state.votes[t.id][o[r]]);
+  const pct=voters.length?Math.round(voted.length/voters.length*100):0;
+  document.getElementById('adminVoteProgress').style.width=pct+'%';
+  document.getElementById('adminVoteProgressLabel').textContent=voted.length+' de '+voters.length+' equipos han votado ('+pct+'%)';
+  document.getElementById('adminOrderList').innerHTML=o.map((tid,i)=>{
+    const t=teams.find(x=>x.id===tid);
+    const cls=i<r?'done':i===r?'current':'pending';
+    return `<li class="${cls}">${i<r?'✓':i===r?'▶':(i+1)+'.'} ${t?t.tapa+' — '+t.name:''}</li>`;
   }).join('');
-
-  // Show next/finish button
-  const allVoted = voted.length === voters.length;
-  const btnNext = document.getElementById('btnNextRound');
-  const btnFinish = document.getElementById('btnFinish');
-
-  if (allVoted && round < total - 1) {
-    btnNext.style.display = 'block';
-    btnFinish.style.display = 'none';
-  } else if (allVoted && round === total - 1) {
-    btnNext.style.display = 'none';
-    btnFinish.style.display = 'block';
-  } else {
-    btnNext.style.display = 'none';
-    btnFinish.style.display = 'none';
-  }
+  const allVoted=voted.length===voters.length&&voters.length>0;
+  document.getElementById('btnNextRound').style.display=allVoted&&r<o.length-1?'block':'none';
+  document.getElementById('btnFinish').style.display=allVoted&&r===o.length-1?'block':'none';
 }
 
-// ===================== SORTEO =====================
-function launchSorteo() {
-  const state = getState();
-  if (!state || state.teams.length < 2) {
-    alert('Necesitas al menos 2 equipos para empezar.');
-    return;
-  }
-  // Shuffle
-  const ids = state.teams.map(t => t.id);
-  for (let i = ids.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [ids[i], ids[j]] = [ids[j], ids[i]];
-  }
-  state.order = ids;
-  state.currentRound = 0;
-  state.phase = 'voting';
-  state.votes = {};
-  state.updatedAt = Date.now();
-  setState(state);
-  renderAdminPanel();
+// ===== REGISTER =====
+async function registerTeam() {
+  const name=document.getElementById('regTeamName').value.trim();
+  const members=document.getElementById('regMembers').value.trim();
+  const tapa=document.getElementById('regTapaName').value.trim();
+  const errEl=document.getElementById('registerStatus');
+  if (!name||!members||!tapa) { errEl.style.display='block'; errEl.textContent='Rellena todos los campos.'; return; }
+  const btn=document.getElementById('btnRegister');
+  btn.disabled=true; btn.textContent='Registrando...';
+  const state=await apiLoad();
+  if (state.phase!=='registration') { errEl.style.display='block'; errEl.textContent='El concurso ya ha comenzado.'; btn.disabled=false; btn.textContent='Registrar equipo ✓'; return; }
+  if (state.teams.find(t=>t.name.toLowerCase()===name.toLowerCase())) { errEl.style.display='block'; errEl.textContent='Ya existe ese nombre de equipo.'; btn.disabled=false; btn.textContent='Registrar equipo ✓'; return; }
+  const teamId='team_'+Date.now();
+  const team={id:teamId,num:state.teams.length+1,name,members:members.split('\n').map(m=>m.trim()).filter(Boolean),tapa,photo:photoData||null};
+  state.teams.push(team);
+  await apiSave(state);
+  myTeamId=teamId; localStorage.setItem('myTeamId',teamId);
+  btn.disabled=false; btn.textContent='Registrar equipo ✓';
+  showTeamWait(team,state); goToScreen('screenTeamWait');
 }
 
-// ===================== NEXT ROUND =====================
-function nextRound() {
-  const state = getState();
-  state.currentRound++;
-  state.updatedAt = Date.now();
-  setState(state);
-  renderAdminPanel();
+// ===== SORTEO =====
+async function launchSorteo() {
+  const state=await apiLoad();
+  if (!state||state.teams.length<2) { alert('Necesitas al menos 2 equipos.'); return; }
+  const ids=state.teams.map(t=>t.id);
+  for (let i=ids.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]; }
+  state.order=ids; state.currentRound=0; state.phase='voting'; state.votes={};
+  await apiSave(state); renderAdminPanel(state);
+}
+async function nextRound() {
+  const state=await apiLoad(); state.currentRound++;
+  await apiSave(state); renderAdminPanel(state);
+}
+async function finishContest() {
+  const state=await apiLoad(); state.phase='finished';
+  await apiSave(state); renderAdminPanel(state);
+  goToScreen('screenResults'); renderResults(state);
 }
 
-// ===================== FINISH =====================
-function finishContest() {
-  const state = getState();
-  state.phase = 'finished';
-  state.updatedAt = Date.now();
-  setState(state);
-  renderAdminPanel();
-  goToScreen('screenResults');
-  renderResults();
+// ===== VOTING =====
+let currentScores={Sabor:5,Imagen:5,Marketing:5,Saludable:5};
+function updateScore(cat,val) {
+  currentScores[cat]=parseInt(val);
+  const el=document.getElementById('val'+cat);
+  el.textContent=val;
+  el.className='score-bubble'+(parseInt(val)>=8?' high':'');
+  document.getElementById('voteTotal').textContent=Object.values(currentScores).reduce((a,b)=>a+b,0);
 }
 
-// ===================== VOTING =====================
-let currentScores = { Sabor: 5, Imagen: 5, Marketing: 5, Saludable: 5 };
-
-function updateScore(cat, val) {
-  currentScores[cat] = parseInt(val);
-  document.getElementById('val' + cat).textContent = val;
-  const total = Object.values(currentScores).reduce((a,b) => a+b, 0);
-  document.getElementById('voteTotal').textContent = total;
-}
-
-function showVoteScreen(state) {
-  const round = state.currentRound;
-  const targetId = state.order[round];
-  const target = state.teams.find(t => t.id === targetId);
+function showVoteScreen(state, editing=false) {
+  const target=state.teams.find(t=>t.id===state.order[state.currentRound]);
   if (!target) return;
-
-  document.getElementById('voteRoundLabel').textContent = `Ronda ${round + 1} de ${state.order.length}`;
-  document.getElementById('voteTapaTitle').textContent = target.tapa;
-  document.getElementById('voteTeamLabel').textContent = `Equipo: ${target.name}`;
-
-  // Reset sliders
-  ['Sabor','Imagen','Marketing','Saludable'].forEach(c => {
-    currentScores[c] = 5;
-    document.getElementById('slider' + c).value = 5;
-    document.getElementById('val' + c).textContent = 5;
-  });
-  document.getElementById('voteTotal').textContent = 20;
-
-  // Progress
-  const myTeam = state.teams.find(t => t.id === myTeamId);
-  const voters = state.teams.filter(t => t.id !== targetId);
-  const voted = voters.filter(t => state.votes[t.id] && state.votes[t.id][targetId]);
-  const pct = voters.length > 0 ? Math.round(voted.length / voters.length * 100) : 0;
-  document.getElementById('voteProgressBar').style.width = pct + '%';
-  document.getElementById('voteProgressLabel').textContent = `${voted.length} de ${voters.length} equipos han votado`;
-
-  document.getElementById('voteMsg').style.display = 'none';
-  document.getElementById('submitVoteBtn').disabled = false;
-}
-
-function submitVote() {
-  const state = getState();
-  const targetId = state.order[state.currentRound];
-
-  if (!state.votes[myTeamId]) state.votes[myTeamId] = {};
-  state.votes[myTeamId][targetId] = { ...currentScores };
-  state.updatedAt = Date.now();
-  setState(state);
-
-  document.getElementById('submitVoteBtn').disabled = true;
-  const msg = document.getElementById('voteMsg');
-  msg.style.display = 'block';
-  msg.className = 'alert alert-success';
-  msg.textContent = '✅ ¡Voto enviado! Espera al siguiente equipo.';
-
-  goToScreen('screenVoteDone');
-}
-
-function renderWaitVoting(state, team) {
-  const statusEl = document.getElementById('waitStatus');
-  const round = state.currentRound;
-  const targetId = state.order[round];
-  const myId = team.id;
-
-  document.getElementById('waitOrderCard').style.display = 'block';
-  const ol = document.getElementById('waitOrderList');
-  ol.innerHTML = state.order.map((tid, i) => {
-    const t = state.teams.find(x => x.id === tid);
-    const cls = i < round ? 'done' : i === round ? 'current' : 'pending';
-    return `<li class="${cls}">${i < round ? '✓' : i === round ? '▶' : (i+1)+'.'} ${t ? t.tapa + ' — ' + t.name : ''}</li>`;
-  }).join('');
-
-  if (targetId === myId) {
-    statusEl.className = 'alert alert-warning';
-    statusEl.textContent = '🍽️ ¡Es el turno de tu tapa! Los demás equipos te están evaluando ahora.';
+  document.getElementById('voteRoundLabel').textContent='Ronda '+(state.currentRound+1)+' de '+state.order.length;
+  document.getElementById('voteTapaTitle').textContent=target.tapa;
+  document.getElementById('voteTeamLabel').textContent='Equipo: '+target.name;
+  // Show photo
+  if (target.photo) {
+    document.getElementById('voteTapaImg').src=target.photo;
+    document.getElementById('voteTapaImg').style.display='block';
+    document.getElementById('voteTapaPlaceholder').style.display='none';
   } else {
-    const hasVoted = state.votes[myId] && state.votes[myId][targetId];
-    if (hasVoted) {
-      statusEl.className = 'alert alert-success';
-      statusEl.textContent = '✅ Ya has votado este plato. Espera al siguiente turno.';
+    document.getElementById('voteTapaImg').style.display='none';
+    document.getElementById('voteTapaPlaceholder').style.display='flex';
+  }
+  // Load existing vote if editing
+  const existing = state.votes[myTeamId] && state.votes[myTeamId][state.order[state.currentRound]];
+  const cats=['Sabor','Imagen','Marketing','Saludable'];
+  cats.forEach(c=>{
+    const val = existing ? existing[c] : 5;
+    currentScores[c]=val;
+    document.getElementById('slider'+c).value=val;
+    document.getElementById('val'+c).textContent=val;
+    document.getElementById('val'+c).className='score-bubble'+(val>=8?' high':'');
+  });
+  document.getElementById('voteTotal').textContent=Object.values(currentScores).reduce((a,b)=>a+b,0);
+  const voters=state.teams.filter(t=>t.id!==state.order[state.currentRound]);
+  const voted=voters.filter(t=>state.votes[t.id]&&state.votes[t.id][state.order[state.currentRound]]);
+  const pct=voters.length?Math.round(voted.length/voters.length*100):0;
+  document.getElementById('voteProgressBar').style.width=pct+'%';
+  document.getElementById('voteProgressLabel').textContent=voted.length+' de '+voters.length+' equipos han votado';
+  document.getElementById('voteMsg').style.display='none';
+  document.getElementById('submitVoteBtn').disabled=false;
+  document.getElementById('submitVoteBtn').textContent = existing ? '✏️ Actualizar puntuación' : 'Enviar puntuación ✓';
+}
+
+function goToEditVote() {
+  apiLoad().then(state=>{
+    if (state.phase==='finished') { alert('Los resultados ya han sido revelados. No se pueden cambiar votos.'); return; }
+    showVoteScreen(state, true); goToScreen('screenVote');
+  });
+}
+
+async function submitVote() {
+  document.getElementById('submitVoteBtn').disabled=true;
+  const state=await apiLoad();
+  if (state.phase==='finished') { alert('Ya se han revelado los resultados.'); return; }
+  const targetId=state.order[state.currentRound];
+  if (!state.votes[myTeamId]) state.votes[myTeamId]={};
+  state.votes[myTeamId][targetId]={...currentScores};
+  await apiSave(state);
+  const msg=document.getElementById('voteMsg');
+  msg.style.display='block'; msg.className='alert alert-success'; msg.textContent='✅ ¡Puntuación guardada!';
+  setTimeout(()=>goToScreen('screenVoteDone'),1000);
+}
+
+function showTeamWait(team,state) {
+  document.getElementById('waitBadge').textContent=team.num;
+  document.getElementById('waitTeamName').textContent=team.name;
+  document.getElementById('waitTapa').textContent='🍽️ '+team.tapa;
+  const statusEl=document.getElementById('waitStatus');
+  const editBtn=document.getElementById('btnEditVote');
+  const editBtnDone=document.getElementById('btnEditFromDone');
+  if (state.phase==='registration') {
+    statusEl.className='alert alert-info'; statusEl.textContent='⏳ Espera a que el admin lance el sorteo.';
+    document.getElementById('waitOrderCard').style.display='none';
+    editBtn.style.display='none';
+  } else if (state.phase==='voting') {
+    const targetId=state.order[state.currentRound];
+    document.getElementById('waitOrderCard').style.display='block';
+    document.getElementById('waitOrderList').innerHTML=state.order.map((tid,i)=>{
+      const t=state.teams.find(x=>x.id===tid);
+      const cls=i<state.currentRound?'done':i===state.currentRound?'current':'pending';
+      return '<li class="'+cls+'">'+(i<state.currentRound?'✓':i===state.currentRound?'▶':(i+1)+'.')+' '+(t?t.tapa+' — '+t.name:'')+'</li>';
+    }).join('');
+    // Check if we have a previous vote for a different round
+    const hasPreviousVote = state.votes[myTeamId] && Object.keys(state.votes[myTeamId]).length > 0;
+    if (targetId===team.id) {
+      statusEl.className='alert alert-warn'; statusEl.textContent='🍽️ ¡Es el turno de tu tapa! Los demás te están evaluando ahora.';
+      editBtn.style.display = hasPreviousVote ? 'flex' : 'none';
+    } else if (state.votes[myTeamId]&&state.votes[myTeamId][targetId]) {
+      statusEl.className='alert alert-success'; statusEl.textContent='✅ Ya has votado esta tapa. Espera a la siguiente ronda.';
+      editBtn.style.display='flex';
     } else {
-      statusEl.className = 'alert alert-info';
-      statusEl.textContent = '🗳️ ¡Es tu turno de votar!';
+      statusEl.className='alert alert-info'; statusEl.textContent='🗳️ ¡Es tu turno de votar!';
+      editBtn.style.display = hasPreviousVote ? 'flex' : 'none';
     }
+    if (editBtnDone) editBtnDone.style.display = hasPreviousVote ? 'flex' : 'none';
   }
 }
 
-// ===================== RESULTS =====================
-function renderResults() {
-  const state = getState();
-  const teams = state.teams;
-  const votes = state.votes;
+function restoreSession(team,state) {
+  if (state.phase==='registration') { showTeamWait(team,state); goToScreen('screenTeamWait'); }
+  else if (state.phase==='voting') {
+    const targetId=state.order[state.currentRound];
+    const hasVoted=state.votes[myTeamId]&&state.votes[myTeamId][targetId];
+    if (targetId===myTeamId) { showTeamWait(team,state); goToScreen('screenTeamWait'); }
+    else if (hasVoted) { 
+      const hasPrev = state.votes[myTeamId] && Object.keys(state.votes[myTeamId]).length>0;
+      document.getElementById('btnEditFromDone').style.display=hasPrev?'flex':'none';
+      goToScreen('screenVoteDone'); 
+    }
+    else { showVoteScreen(state); goToScreen('screenVote'); }
+  } else if (state.phase==='finished') { goToScreen('screenResults'); renderResults(state); }
+}
 
-  // Calculate scores per team
-  const scores = {};
-  teams.forEach(t => {
-    scores[t.id] = { total: 0, Sabor: 0, Imagen: 0, Marketing: 0, Saludable: 0, count: 0 };
-  });
-
-  Object.entries(votes).forEach(([voterId, targets]) => {
-    Object.entries(targets).forEach(([targetId, cats]) => {
-      if (!scores[targetId]) return;
-      scores[targetId].Sabor += cats.Sabor || 0;
-      scores[targetId].Imagen += cats.Imagen || 0;
-      scores[targetId].Marketing += cats.Marketing || 0;
-      scores[targetId].Saludable += cats.Saludable || 0;
-      scores[targetId].total += (cats.Sabor||0) + (cats.Imagen||0) + (cats.Marketing||0) + (cats.Saludable||0);
-      scores[targetId].count++;
+// ===== RESULTS =====
+function renderResults(state) {
+  if (!state) { apiLoad().then(renderResults); return; }
+  const teams=state.teams, votes=state.votes, scores={};
+  teams.forEach(t=>{scores[t.id]={total:0,Sabor:0,Imagen:0,Marketing:0,Saludable:0};});
+  Object.entries(votes).forEach(([vid,targets])=>{
+    Object.entries(targets).forEach(([tid,cats])=>{
+      if (!scores[tid]) return;
+      ['Sabor','Imagen','Marketing','Saludable'].forEach(c=>{scores[tid][c]+=(cats[c]||0);scores[tid].total+=(cats[c]||0);});
     });
   });
-
-  // Sort by total
-  const sorted = [...teams].sort((a,b) => scores[b.id].total - scores[a.id].total);
-
-  // Category winners
-  const cats = ['Sabor','Imagen','Marketing','Saludable'];
-  const catEmojis = { Sabor:'🔥', Imagen:'📸', Marketing:'📣', Saludable:'🥦' };
-  const catWinners = {};
-  cats.forEach(cat => {
-    let best = null, bestScore = -1;
-    teams.forEach(t => {
-      if (scores[t.id][cat] > bestScore) { bestScore = scores[t.id][cat]; best = t; }
-    });
-    catWinners[cat] = { team: best, score: bestScore };
-  });
-
-  const winner = sorted[0];
-  const winnerScore = scores[winner.id].total;
-
-  let html = `
-    <div class="winner-card">
-      <div class="trophy">🏆</div>
-      <h2>Ganador del concurso</h2>
-      <div class="winner-name">${winner.name}</div>
-      <div class="winner-tapa">🍽️ ${winner.tapa}</div>
-      <div class="winner-score">${winnerScore} pts</div>
+  const sorted=[...teams].sort((a,b)=>scores[b.id].total-scores[a.id].total);
+  const cats=['Sabor','Imagen','Marketing','Saludable'], emojis={Sabor:'🔥',Imagen:'📸',Marketing:'📣',Saludable:'🥦'};
+  const catW={};
+  cats.forEach(c=>{let best=null,bs=-1;teams.forEach(t=>{if(scores[t.id][c]>bs){bs=scores[t.id][c];best=t;}});catW[c]={team:best,score:bs};});
+  const w=sorted[0];
+  const photoHtml = w.photo ? `<img src="${w.photo}" style="width:100%;height:160px;object-fit:cover;border-radius:14px;margin-bottom:16px;position:relative;z-index:1;">` : '';
+  document.getElementById('resultsContent').innerHTML=`
+    <div class="winner-hero fade-up">
+      ${photoHtml}
+      <span class="winner-trophy">🏆</span>
+      <div class="winner-label">Ganador del concurso</div>
+      <div class="winner-name">${w.name}</div>
+      <div class="winner-tapa">🍽️ ${w.tapa}</div>
+      <div class="winner-pts">${scores[w.id].total}</div>
+      <div class="winner-pts-label">puntos totales</div>
     </div>
-
     <div class="card">
-      <div class="section-title">🥇 Ranking general</div>
-      ${sorted.map((t, i) => `
-        <div class="rank-item">
-          <div class="rank-num ${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other'}">${i+1}</div>
+      <div class="sect">Ranking final</div>
+      ${sorted.map((t,i)=>`
+        <div class="rank-row">
+          <div class="rank-medal ${i===0?'m1':i===1?'m2':i===2?'m3':'mN'}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
           <div class="rank-info">
             <div class="rank-name">${t.name}</div>
-            <div class="rank-sub">🍽️ ${t.tapa} · Sabor:${scores[t.id].Sabor} Img:${scores[t.id].Imagen} Mkt:${scores[t.id].Marketing} Sal:${scores[t.id].Saludable}</div>
+            <div class="rank-tapa">🍽️ ${t.tapa} · S:${scores[t.id].Sabor} I:${scores[t.id].Imagen} M:${scores[t.id].Marketing} S:${scores[t.id].Saludable}</div>
           </div>
           <div class="rank-score">${scores[t.id].total}</div>
-        </div>
-      `).join('')}
+        </div>`).join('')}
     </div>
-
     <div class="card">
-      <div class="section-title">🏅 Ganadores por categoría</div>
-      ${cats.map(cat => `
-        <div class="cat-winner">
-          <div class="cat-icon">${catEmojis[cat]}</div>
-          <div>
-            <div class="cat-name">${cat}</div>
-            <div class="cat-winner-name">${catWinners[cat].team ? catWinners[cat].team.name : '-'}</div>
-            <div style="font-size:0.78rem;color:var(--muted)">${catWinners[cat].team ? catWinners[cat].team.tapa : ''}</div>
+      <div class="sect">Premios por categoría</div>
+      ${cats.map(c=>`
+        <div class="cat-row">
+          <div class="cat-ico">${emojis[c]}</div>
+          <div class="cat-body">
+            <div class="cat-label">${c}</div>
+            <div class="cat-winner-name">${catW[c].team?catW[c].team.name:'—'}</div>
+            <div style="font-size:0.76rem;color:var(--muted);">${catW[c].team?catW[c].team.tapa:''}</div>
           </div>
-          <div class="cat-score">${catWinners[cat].score} pts</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-
-  document.getElementById('resultsContent').innerHTML = html;
-  document.getElementById('backToAdmin').style.display = isAdmin ? 'block' : 'none';
+          <div class="cat-pts">${catW[c].score}</div>
+        </div>`).join('')}
+    </div>`;
+  document.getElementById('backToAdmin').style.display=isAdmin?'block':'none';
 }
 
-// ===================== POLLING & STATE CHANGES =====================
+// ===== POLLING =====
 function startPolling() {
   if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(() => {
-    const state = getState();
-    if (state) onStateChange(state);
-  }, 2000);
-}
-
-let lastUpdatedAt = 0;
-function onStateChange(state) {
-  if (state.updatedAt <= lastUpdatedAt) return;
-  lastUpdatedAt = state.updatedAt;
-
-  document.getElementById('syncBar').textContent = '● Actualizado: ' + new Date(state.updatedAt).toLocaleTimeString();
-
-  const currentScreen = document.querySelector('.screen.active').id;
-
-  if (isAdmin) {
-    if (currentScreen === 'screenAdmin') renderAdminPanel();
-    return;
-  }
-
-  if (!myTeamId) return;
-  const myTeam = state.teams.find(t => t.id === myTeamId);
-  if (!myTeam) return;
-
-  if (state.phase === 'registration' && currentScreen === 'screenTeamWait') {
-    showTeamWait(myTeam, state);
-  }
-
-  if (state.phase === 'voting') {
-    const round = state.currentRound;
-    const targetId = state.order[round];
-
-    if (currentScreen === 'screenTeamWait' || currentScreen === 'screenVoteDone') {
-      // Check if we need to vote now
-      const hasVotedCurrent = state.votes[myTeamId] && state.votes[myTeamId][targetId];
-
-      if (targetId === myTeamId) {
-        // It's MY tapa being judged
-        goToScreen('screenTeamWait');
-        showTeamWait(myTeam, state);
-      } else if (hasVotedCurrent) {
-        goToScreen('screenVoteDone');
-        document.getElementById('voteDoneMsg').textContent = 'Has votado esta tapa. Espera a la siguiente ronda.';
-      } else {
-        goToScreen('screenVote');
-        showVoteScreen(state);
-      }
-    }
-
-    if (currentScreen === 'screenTeamWait') {
-      showTeamWait(myTeam, state);
-    }
-  }
-
-  if (state.phase === 'finished') {
-    goToScreen('screenResults');
-    renderResults();
-  }
-}
-
-// ===================== INIT =====================
-(function init() {
-  initState();
-  showHomeStatus();
-
-  // Restore session
-  const savedTeamId = localStorage.getItem('myTeamId');
-  if (savedTeamId) {
-    const state = getState();
-    if (state) {
-      const team = state.teams.find(t => t.id === savedTeamId);
-      if (team) {
-        myTeamId = savedTeamId;
-        if (state.phase === 'registration') {
-          showTeamWait(team, state);
-          goToScreen('screenTeamWait');
-          startPolling();
-        } else if (state.phase === 'voting') {
-          const targetId = state.order[state.currentRound];
-          const hasVoted = state.votes[myTeamId] && state.votes[myTeamId][targetId];
-          if (targetId === myTeamId || hasVoted) {
-            showTeamWait(team, state);
-            goToScreen('screenVoteDone');
-          } else {
-            goToScreen('screenVote');
-            showVoteScreen(state);
+  pollInterval=setInterval(async()=>{
+    try {
+      const state=await apiLoad();
+      if (!state||state.updatedAt<=lastUpdatedAt) return;
+      lastUpdatedAt=state.updatedAt;
+      setSyncBar('● Actualizado '+new Date(state.updatedAt).toLocaleTimeString(),true);
+      const cur=document.querySelector('.screen.active').id;
+      if (isAdmin&&cur==='screenAdmin') { renderAdminPanel(state); return; }
+      if (!myTeamId) { showHomeStatus(state); return; }
+      const myTeam=state.teams.find(t=>t.id===myTeamId);
+      if (!myTeam) return;
+      if (state.phase==='voting') {
+        const tid=state.order[state.currentRound];
+        const hasVoted=state.votes[myTeamId]&&state.votes[myTeamId][tid];
+        if (cur==='screenTeamWait'||cur==='screenVoteDone') {
+          if (tid===myTeamId) { showTeamWait(myTeam,state); if(cur!=='screenTeamWait') goToScreen('screenTeamWait'); }
+          else if (hasVoted) { 
+            showTeamWait(myTeam,state);
+            if(cur!=='screenVoteDone') goToScreen('screenVoteDone'); 
+            const hasPrev=state.votes[myTeamId]&&Object.keys(state.votes[myTeamId]).length>0;
+            document.getElementById('btnEditFromDone').style.display=hasPrev?'flex':'none';
           }
-          startPolling();
-        } else if (state.phase === 'finished') {
-          goToScreen('screenResults');
-          renderResults();
+          else { showVoteScreen(state); goToScreen('screenVote'); }
         }
-        return;
+        if (cur==='screenTeamWait') showTeamWait(myTeam,state);
       }
-    }
-  }
+      if (state.phase==='finished') { goToScreen('screenResults'); renderResults(state); }
+    } catch(e){}
+  },3000);
+}
+
+// ===== INIT =====
+(function(){
+  const k=localStorage.getItem('concurso_api_key'), b=localStorage.getItem('concurso_bin_id');
+  if (k&&b) { API_KEY=k; BIN_ID=b; apiLoad().then(s=>s?finishSetup(s):goToScreen('screenSetup')).catch(()=>goToScreen('screenSetup')); }
 })();
 </script>
 </body>
