@@ -317,7 +317,7 @@ input[type=range]::-webkit-slider-thumb {
 </div>
 
 <!-- SETUP -->
-<div class="screen active" id="screenSetup">
+<div class="screen" id="screenSetup">
   <div class="hero-card fade-up">
     <span class="hero-emoji-big">🔑</span>
     <div class="hero-title">Configuración</div>
@@ -335,7 +335,7 @@ input[type=range]::-webkit-slider-thumb {
 </div>
 
 <!-- HOME -->
-<div class="screen" id="screenHome">
+<div class="screen active" id="screenHome">
   <div class="hero-card fade-up">
     <span class="hero-emoji-big">🏆</span>
     <div class="hero-title">¡Bienvenido!</div>
@@ -519,7 +519,7 @@ input[type=range]::-webkit-slider-thumb {
 <script>
 const ADMIN_PASSWORD = 'admin2024';
 const API = 'https://api.jsonbin.io/v3';
-let API_KEY = '', BIN_ID = '';
+let API_KEY = '$2a$10$XH9MVB1SGsKr1sxfZ48LienOEWo7SzrEUokEYSNste7uoDHCTh5c.', BIN_ID = '69a75486ae596e708f5c3112';
 let myTeamId = localStorage.getItem('myTeamId') || null;
 let isAdmin = false, pollInterval = null, lastUpdatedAt = 0, isSaving = false;
 let photoData = null; // base64 photo
@@ -912,8 +912,8 @@ function startPolling() {
 
 // ===== INIT =====
 (function(){
-  const k=localStorage.getItem('concurso_api_key'), b=localStorage.getItem('concurso_bin_id');
-  if (k&&b) { API_KEY=k; BIN_ID=b; apiLoad().then(s=>s?finishSetup(s):goToScreen('screenSetup')).catch(()=>goToScreen('screenSetup')); }
+  // API key and BIN ID are hardcoded - no setup needed
+  apiLoad().then(s=>s?finishSetup(s):goToScreen('screenHome')).catch(()=>setSyncBar('⚠️ Error de conexión'));
 })();
 </script>
 </body>
