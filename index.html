@@ -912,7 +912,9 @@ function startPolling() {
 
 // ===== INIT =====
 (function(){
-  // API key and BIN ID are hardcoded - no setup needed
+  // Force hardcoded BIN ID - clear any old saved ones
+  localStorage.removeItem('concurso_bin_id');
+  localStorage.removeItem('concurso_api_key');
   apiLoad().then(s=>s?finishSetup(s):goToScreen('screenHome')).catch(()=>setSyncBar('⚠️ Error de conexión'));
 })();
 </script>
